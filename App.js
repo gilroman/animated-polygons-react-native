@@ -16,9 +16,7 @@ const styles = StyleSheet.create({
 export default class CounterDisplayAnimatedNew extends React.Component {
   state = {
     animation1: new Animated.Value(0),
-    animation2: new Animated.Value(0),
-    animation1StoppedValue: 0,
-    animation2StoppedValue: 0
+    animation2: new Animated.Value(0)
   };
 
   polygon1Path = 'M103.7,81.8L287.8,6.7c8.8-3.7,18.7-3.7,27.5,0L499,84.8c8.7,3.7,15.7,10.7,19.2,19.5l75.1,183.8c3.6,8.8,3.6,18.7,0,27.5L515.8,499c-3.7,8.7-10.7,15.7-19.5,19.2l-184.6,75.1c-8.8,3.6-18.6,3.6-27.4,0l-183.3-77.5c-8.8-3.7-15.8-10.7-19.4-19.5L6.8,312c-3.7-8.8-3.7-18.7,0-27.5l77.8-183.4C88.2,92.4,95.1,85.5,103.7,81.8z';
@@ -30,9 +28,6 @@ export default class CounterDisplayAnimatedNew extends React.Component {
   polygon4Path = 'M169,154.4l122.8-50.1c5.9-2.4,12.5-2.4,18.3,0l122.5,52.1c5.8,2.5,10.5,7.1,12.8,13L495.7,292c2.4,5.9,2.4,12.5,0,18.3L444,432.7c-2.5,5.8-7.1,10.5-13,12.8l-123.2,50.1c-5.8,2.4-12.4,2.4-18.3,0L167.3,444c-5.9-2.4-10.5-7.1-12.9-13l-50-123c-2.4-5.9-2.4-12.5,0-18.3l51.9-122.4C158.7,161.5,163.3,156.9,169,154.4z';
 
   handleStartButton = () => {
-    this.state.animation1.setValue(0);
-    this.state.animation2.setValue(0);
-
     Animated.stagger(75, [
       Animated.timing(this.state.animation1, {
         toValue: 2,
@@ -45,6 +40,8 @@ export default class CounterDisplayAnimatedNew extends React.Component {
       })
     ]).start(animation => {
       if (animation.finished) {
+        this.state.animation1.setValue(0);
+        this.state.animation2.setValue(0);
         this.handleStartButton();
       }
     });
@@ -52,10 +49,10 @@ export default class CounterDisplayAnimatedNew extends React.Component {
 
   handleStopButton = () => {
     this.state.animation1.stopAnimation(stoppedValue => {
-      this.setState({ animation1StoppedValue: stoppedValue });
+      this.state.animation1.setValue(stoppedValue);
     });
     this.state.animation2.stopAnimation(stoppedValue => {
-      this.setState({ animation2StoppedValue: stoppedValue });
+      this.state.animation1.setValue(stoppedValue);
     });
   };
 
